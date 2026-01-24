@@ -1,0 +1,127 @@
+
+run_tests.py — Orchestrator Script Explanation
+=============================================
+
+Purpose
+-------
+This script is the central test orchestrator for the AirPods Performance QA project.
+Its job is to:
+- Load test configuration
+- Create a uniquely identified test run
+- Initialize logging
+- Start system metrics collection
+- Store artifacts for later analysis
+
+This file acts as the entry point for all automated test runs.
+
+--------------------------------------------------
+
+1. Imports
+----------
+
+import yaml
+    Used to load configuration from test_config.yaml so tests are data-driven.
+
+import logging
+    Provides structured logging for traceability and debugging.
+
+import os
+    Used to create directories for log storage.
+
+from datetime import datetime
+    Generates unique timestamps for each test run.
+
+from collectors.system_collector import SystemCollector
+    Imports the system metrics collector responsible for CPU and memory sampling.
+
+--------------------------------------------------
+
+2. setup_logger(run_id)
+----------------------
+
+Purpose:
+Creates a dedicated logger for a single test run.
+
+Key actions:
+- Creates a directory at logs/raw/<run_id>/
+- Configures a logger with INFO-level logging
+- Writes logs to run.log inside the run directory
+- Formats logs with timestamps and severity levels
+
+Why this matters:
+- Each test run is isolated
+- Logs are easy to trace and compare
+- Matches professional QA logging standards
+
+--------------------------------------------------
+
+3. main()
+---------
+
+This function coordinates the entire test run.
+
+Step-by-step:
+
+3.1 Load configuration
+    Reads configs/test_config.yaml using PyYAML.
+    This allows test behavior to be changed without editing code.
+
+3.2 Generate run_id
+    Combines the configured run name with a UTC timestamp.
+    Example:
+        baseline_run_20260123_201522
+
+3.3 Initialize logging
+    Calls setup_logger(run_id).
+    All test activity is logged to a run-specific directory.
+
+3.4 Start test run
+    Logs metadata such as run start and run ID.
+
+3.5 Initialize SystemCollector
+    Uses the sampling interval defined in the config.
+    This object will collect CPU and memory metrics.
+
+3.6 Collect system metrics
+    Runs the collector for the configured duration.
+    Samples are stored in memory during execution.
+
+3.7 Finalize run
+    Retrieves collected samples.
+    Logs the number of samples collected.
+    Marks the run as completed.
+
+--------------------------------------------------
+
+4. Script Entry Point
+--------------------
+
+if __name__ == "__main__":
+    main()
+
+This ensures:
+- The script runs only when executed directly
+- The file can later be imported without auto-running
+- Enables reuse in larger automation pipelines
+
+--------------------------------------------------
+
+Why This Script Is Important
+---------------------------
+
+This orchestrator demonstrates:
+- Test automation architecture
+- Config-driven execution
+- Performance monitoring
+- Artifact traceability
+- Production-style logging
+
+It serves as the backbone for:
+- Bluetooth testing
+- Audio performance scenarios
+- Long-run reliability tests
+- Automated reporting
+
+--------------------------------------------------
+
+End of File

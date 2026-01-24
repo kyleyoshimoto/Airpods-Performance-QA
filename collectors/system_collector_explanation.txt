@@ -1,0 +1,87 @@
+SystemCollector — System Performance Metrics Collector
+
+Overview
+
+The SystemCollector module is responsible for collecting system-level
+performance metrics during test execution. Its primary role is to
+observe CPU and memory usage over time so these metrics can later be
+correlated with Bluetooth events, audio playback behavior, and test
+scenario execution.
+
+This module is intentionally simple, lightweight, and focused solely on
+data collection. It does not perform analysis or reporting.
+
+Imports
+
+psutil: Used to access system performance metrics such as CPU
+utilization and memory usage. This allows the test framework to observe
+how the system behaves under load.
+
+time: Used for timestamps, duration tracking, and controlling the
+sampling interval.
+
+Class: SystemCollector
+
+The SystemCollector class encapsulates all logic related to sampling
+system metrics. It follows a single-responsibility design: collect raw
+performance data over time.
+
+Constructor (init)
+
+Parameters: - interval (default = 1): Defines how frequently metrics are
+sampled, in seconds.
+
+Instance Variables: - interval: Sampling frequency. - running: Boolean
+flag indicating whether the collector is actively collecting data. -
+samples: A list that stores raw metric snapshots collected over time.
+
+Method: collect_sample
+
+Captures a single snapshot of system performance.
+
+Metrics Collected: - timestamp: Unix timestamp representing when the
+sample was taken. - cpu_percent: Current system-wide CPU utilization
+percentage. - memory_percent: Percentage of system memory currently in
+use.
+
+This method is intentionally lightweight to minimize measurement
+overhead.
+
+Method: start
+
+Begins continuous data collection for a fixed duration.
+
+Parameters: - duration_sec: Total number of seconds to collect metrics.
+
+Behavior: - Sets the running flag to True - Records a start time - Loops
+until the specified duration has elapsed - Collects a metric sample at
+each interval - Sleeps between samples to control sampling frequency -
+Stops collection and sets running to False when complete
+
+This time-based collection model is well-suited for performance and soak
+testing.
+
+Method: get_samples
+
+Returns all collected metric samples.
+
+This allows other components (analysis, reporting, dashboards) to
+consume the raw time-series data without coupling those concerns to the
+collector itself.
+
+Design Rationale
+
+-   Separation of concerns: Collection, analysis, and reporting are
+    handled independently.
+-   Low overhead: Sampling is non-blocking and configurable.
+-   Extensible: Additional metrics (process-level stats, Bluetooth
+    processes) can be added later.
+-   Deterministic behavior: Simple control flow makes debugging and
+    validation easy.
+
+Intended Usage
+
+The SystemCollector is typically started by the test orchestrator before
+or during a test scenario. After execution, the collected samples are
+passed to analysis modules to compute performance metrics and generate
+reports.

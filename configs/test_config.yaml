@@ -1,0 +1,13 @@
+run:
+  name: "baseline_run"
+  output_dir: "logs"
+  duration_seconds: 600
+
+scenarios:
+  - name: "idle_scenario"
+    enabled: true
+  - name: "long_run_stability"
+    enabled: false
+
+system:
+  sample_interval_secs: 1
