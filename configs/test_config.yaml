@@ -1,7 +1,11 @@
+#run:
+ # name: "baseline_run"
+  #output_dir: "logs"
+  #duration_seconds: 600
+
 run:
-  name: "baseline_run"
-  output_dir: "logs"
-  duration_seconds: 600
+  name: "harness validation"
+  duration_seconds: 10
 
 scenarios:
   - name: "idle_scenario"
@@ -12,4 +16,4 @@ scenarios:
     enabled: true
 
 system:
-  sample_interval_secs: 1
+  sample_interval_sec: 1

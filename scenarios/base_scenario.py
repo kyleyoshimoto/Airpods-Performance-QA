@@ -7,6 +7,7 @@ class BaseScenario(ABC):
         self.logger = logger
         self.start_time = None
         self.end_time = None
+        self.results = []
 
     def setup(self):
         self.logger.info("Setting up scenario")

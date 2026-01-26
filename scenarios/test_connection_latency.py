@@ -2,6 +2,7 @@ from scenarios.base_scenario import BaseScenario
 from collectors.bluetooth_controller import BluetoothController
 
 import time
+from datetime import datetime
 
 import json
 import os
@@ -24,12 +25,12 @@ class ConnectionLatencyScenario(BaseScenario):
             json.dump(results, f, indent=2)    
 
     def run(self):
-        self.logger.info("Running Test Connection Latency Scenario")
+        self.logger.info("⛓️ Running Test Connection Latency Scenario")
 
         bt_controller = BluetoothController()
         results = []
 
-        iterations = self.config.get("iterations", 5) # Configurable number of iterations
+        iterations = self.config.get("iterations", 5)
 
         for i in range(iterations):
             self.logger.info(f"Iteration {i+1} of {iterations}")
@@ -46,15 +47,15 @@ class ConnectionLatencyScenario(BaseScenario):
             end_time = time.time()
             latency = end_time - start_time
 
-            self.logger.info(f"Connection latency: {latency:.2f} seconds")
+            self.logger.info(f"Iteration {i+1}: connection latency = {latency:.2f} seconds")
 
             results.append({
-                "iterations": i + 1,
+                "iteration": i + 1,
                 "latency_seconds": latency,
                 "timestamp": start_time
             })
 
-            self.results = results
-            
-        run_id = f"{self.config['run']['name']}_{self.start_time.strftime('%Y%m%d_%H%M%S')}"
+        self.results = results
+
+        run_id = f"{self.config['run']['name']}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}"
         self.save_results(run_id, "connection_latency", results)
