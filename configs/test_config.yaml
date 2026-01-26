@@ -8,6 +8,8 @@ scenarios:
     enabled: true
   - name: "long_run_stability"
     enabled: false
+  - name: "connection_latency"
+    enabled: true
 
 system:
   sample_interval_secs: 1
