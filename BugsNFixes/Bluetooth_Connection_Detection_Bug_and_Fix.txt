@@ -1,0 +1,87 @@
+
+Bluetooth Connection Detection Bug – Root Cause & Fix
+====================================================
+
+Date: 2026-01-26
+Project: AirPods Performance QA
+
+Summary
+-------
+During implementation of real Bluetooth connection detection using
+`system_profiler SPBluetoothDataType`, the system failed to recognize
+the AirPods device name even though it was clearly present in the output.
+This caused `is_connected()` to always return False and prevented
+connection latency tests from executing correctly.
+
+Observed Behavior
+-----------------
+- The script correctly detected entering the `Connected:` and
+  `Not Connected:` sections.
+- The AirPods device (`Kyle’s AirPods Pro`) was printed in the output.
+- However, the parser never matched the device name line.
+- Debug logs showed that the device appeared only under `Not Connected:`
+  even when connected.
+
+Example system_profiler output:
+
+    Connected:
+        LIFT:
+        MX MCHNCL:
+    Not Connected:
+        Kyle’s AirPods Pro:
+
+No lines such as `Connected: Yes/No` were present.
+
+Root Cause
+----------
+macOS `system_profiler` outputs device names using *Unicode smart quotes*
+(e.g. `’`, U+2019), while the device name string in Python used a standard
+ASCII apostrophe (`'`, 0x27).
+
+Example mismatch:
+
+    Python string:
+        "Kyle's AirPods Pro"
+
+    system_profiler output:
+        "Kyle’s AirPods Pro"
+
+Although visually identical, these characters are different at the
+Unicode level, causing string comparisons to fail silently.
+
+Additionally, modern macOS versions no longer emit per-device
+`Connected: Yes/No` flags. Devices are grouped under `Connected:` and
+`Not Connected:` sections instead, requiring block-based parsing.
+
+Fix Implemented
+---------------
+1. Introduced device-name normalization:
+   - Replaced Unicode smart quotes (`’`, `‘`) with ASCII apostrophes (`'`)
+     in both:
+       - The stored device name
+       - Each parsed output line
+
+2. Updated parsing logic to:
+   - Track whether the parser is inside `Connected:` or `Not Connected:`
+   - Match the normalized device name only within the active section
+
+3. Centralized timeout handling so connection state waits fail
+   deterministically instead of hanging indefinitely.
+
+Result
+------
+- `is_connected()` now correctly returns True or False.
+- Connection state changes are reliably detected.
+- Connection latency and reliability scenarios can execute correctly.
+- The Bluetooth detection logic is robust against macOS formatting and
+  localization changes.
+
+Engineering Takeaway
+--------------------
+System-level automation must account for:
+- Unicode and localization differences
+- Undocumented changes in OS tooling output
+- Defensive parsing strategies instead of naive string matching
+
+This issue and fix closely mirror real-world QA and SDET challenges
+encountered in production environments.

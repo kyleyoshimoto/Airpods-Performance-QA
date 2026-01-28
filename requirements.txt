@@ -4,3 +4,4 @@ matplotlib
 pytest
 jinja2
 pyyaml
+blueutil

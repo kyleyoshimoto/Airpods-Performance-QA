@@ -1,0 +1,27 @@
+[
+  {
+    "iteration": 1,
+    "latency_seconds": 3.290004014968872,
+    "timestamp": 1769638650.196293
+  },
+  {
+    "iteration": 2,
+    "latency_seconds": 2.774609088897705,
+    "timestamp": 1769638657.642557
+  },
+  {
+    "iteration": 3,
+    "latency_seconds": 2.616666078567505,
+    "timestamp": 1769638663.674515
+  },
+  {
+    "iteration": 4,
+    "latency_seconds": 2.760270833969116,
+    "timestamp": 1769638670.421538
+  },
+  {
+    "iteration": 5,
+    "latency_seconds": 2.2084579467773438,
+    "timestamp": 1769638677.2515562
+  }
+]

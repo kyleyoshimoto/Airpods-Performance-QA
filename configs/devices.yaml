@@ -1,0 +1,12 @@
+devices:
+  airpods:
+    name: "Kyle's AirPods Pro"
+    address: "20-F4-D4-89-1E-DE"
+    type: "bluetooth"
+
+  jbl_clip4:
+    name: "JBL Clip 4"
+    address: "D8:37:3B:D4:18:B4"
+    type: "bluetooth"
+
+default_device: "airpods"

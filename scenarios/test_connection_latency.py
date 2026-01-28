@@ -6,6 +6,7 @@ from datetime import datetime
 
 import json
 import os
+import yaml
 
 class ConnectionLatencyScenario(BaseScenario):
 
@@ -27,7 +28,15 @@ class ConnectionLatencyScenario(BaseScenario):
     def run(self):
         self.logger.info("⛓️ Running Test Connection Latency Scenario")
 
-        bt_controller = BluetoothController()
+        with open("configs/devices.yaml") as f:
+            device_config = yaml.safe_load(f)
+
+        device_key = device_config.get("default_device", "airpods")
+        device = device_config["devices"][device_key]
+        device_name = device.get("name")
+        device_address = device.get("address")
+
+        bt_controller = BluetoothController(device_name=device_name, device_address=device_address) # Adjust as needed
         results = []
 
         iterations = self.config.get("iterations", 5)
@@ -35,14 +44,10 @@ class ConnectionLatencyScenario(BaseScenario):
         for i in range(iterations):
             self.logger.info(f"Iteration {i+1} of {iterations}")
 
-            bt_controller.disconnect()
-            time.sleep(1)
-
+            bt_controller.disconnect() # user manually disconnects Airpods
             start_time = time.time()
-            bt_controller.connect()
 
-            while not bt_controller.is_connected():
-                time.sleep(0.1)
+            bt_controller.connect()
 
             end_time = time.time()
             latency = end_time - start_time

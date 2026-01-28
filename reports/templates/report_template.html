@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>AirPods Performance QA Report</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; color: #111; }
+    h1 { margin-bottom: 0; }
+    .meta { color: #555; margin-top: 6px; }
+    .card { border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 18px 0; }
+    table { border-collapse: collapse; width: 720px; max-width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; }
+    th { background: #f4f4f4; text-align: left; }
+    .status-pass { color: #1a7f37; font-weight: bold; }
+    .status-warn { color: #b54708; font-weight: bold; }
+    .status-fail { color: #d1242f; font-weight: bold; }
+    code { background: #f6f8fa; padding: 2px 6px; border-radius: 4px; }
+    img { max-width: 900px; width: 100%; height: auto; border: 1px solid #eee; border-radius: 8px; }
+  </style>
+</head>
+<body>
+
+<h1>AirPods Performance QA Report</h1>
+<div class="meta">
+  <div><strong>Run ID:</strong> <code>{{ run_id }}</code></div>
+  <div><strong>Generated:</strong> {{ generated_at }}</div>
+  <div><strong>Processed logs:</strong> <code>{{ processed_dir }}</code></div>
+</div>
+
+<div class="card">
+  <h2>Connection Latency</h2>
+
+  <div>Status:
+    {% if status == "PASS" %}
+      <span class="status-pass">PASS</span>
+    {% elif status == "WARN" %}
+      <span class="status-warn">WARN</span>
+    {% else %}
+      <span class="status-fail">FAIL</span>
+    {% endif %}
+  </div>
+
+  <table>
+    <tr><th>Metric</th><th>Value (seconds)</th></tr>
+    <tr><td>Count</td><td>{{ metrics.count }}</td></tr>
+    <tr><td>Mean</td><td>{{ metrics.mean_sec }}</td></tr>
+    <tr><td>Median</td><td>{{ metrics.median_sec }}</td></tr>
+    <tr><td>P95</td><td>{{ metrics.p95_sec }}</td></tr>
+    <tr><td>Min</td><td>{{ metrics.min_sec }}</td></tr>
+    <tr><td>Max</td><td>{{ metrics.max_sec }}</td></tr>
+    <tr><td>Std Dev</td><td>{{ metrics.stddev_sec }}</td></tr>
+  </table>
+
+  <h3>Latency Chart</h3>
+  <img src="assets/connection_latency.png" alt="Connection latency chart" />
+</div>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+2026-01-28 12:06:49,449 [INFO] Starting AirPods Performance QA run
+2026-01-28 12:06:49,449 [INFO] Run ID: harness_validation_20260128_200649
+2026-01-28 12:06:49,449 [INFO] Collecting system metrics
+2026-01-28 12:06:49,449 [WARNING] Scenario idle_scenario not recognized, skipping.
+2026-01-28 12:06:49,449 [INFO] Executing scenario: connection_latency
+2026-01-28 12:06:49,449 [INFO] About to call execute() on connection_latency
+2026-01-28 12:06:49,449 [INFO] Scenario started at 2026-01-28 20:06:49.449589
+2026-01-28 12:06:49,449 [INFO] Setting up scenario
+2026-01-28 12:06:49,449 [INFO] ⛓️ Running Test Connection Latency Scenario
+2026-01-28 12:06:49,449 [INFO] Iteration 1 of 5
+2026-01-28 12:07:03,569 [INFO] Iteration 1: connection latency = 2.07 seconds
+2026-01-28 12:07:03,570 [INFO] Iteration 2 of 5
+2026-01-28 12:07:11,766 [INFO] Iteration 2: connection latency = 3.30 seconds
+2026-01-28 12:07:11,766 [INFO] Iteration 3 of 5
+2026-01-28 12:07:19,323 [INFO] Iteration 3: connection latency = 2.81 seconds
+2026-01-28 12:07:19,323 [INFO] Iteration 4 of 5
+2026-01-28 12:07:27,547 [INFO] Iteration 4: connection latency = 2.76 seconds
+2026-01-28 12:07:27,547 [INFO] Iteration 5 of 5
+2026-01-28 12:07:36,142 [INFO] Iteration 5: connection latency = 3.27 seconds
+2026-01-28 12:07:36,143 [INFO] Tearing down scenario
+2026-01-28 12:07:36,143 [INFO] Scenario ended at 2026-01-28 20:07:36.143223
+2026-01-28 12:07:36,143 [INFO] Returned from execute() on connection_latency
+2026-01-28 12:07:36,143 [INFO] Completed scenario: connection_latency
+2026-01-28 12:07:36,143 [INFO] Collected 10 system samples
+2026-01-28 12:07:36,143 [INFO] Run completed successfully

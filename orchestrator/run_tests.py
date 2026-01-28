@@ -39,7 +39,9 @@ def main():
     with open("configs/test_config.yaml") as f:
         config = yaml.safe_load(f)
 
-    run_id = f"{config['run']['name']}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+    run_name = str(config["run"].get("name", "run")).strip().replace(" ", "_")
+    run_id = f"{run_name}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+    
     logger = setup_logger(run_id)
 
     logger.info("Starting AirPods Performance QA run")
